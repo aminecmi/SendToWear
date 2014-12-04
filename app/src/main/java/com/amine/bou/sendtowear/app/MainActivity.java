@@ -3,6 +3,8 @@ package com.amine.bou.sendtowear.app;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
@@ -48,11 +50,22 @@ public class MainActivity extends Activity {
     }
 
     private void createNotification(String sharedText) {
+        Bitmap icon = BitmapFactory.decodeResource(this.getResources(),
+                R.drawable.background);
+
+        NotificationCompat.WearableExtender wearableExtender =
+                new NotificationCompat.WearableExtender()
+                        .setHintHideIcon(true)
+                        .setBackground(icon);
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("My notification")
-                        .setContentText(sharedText);
+                        .setContentTitle("Send To Wear")
+                        .setContentText(sharedText)
+                        .extend(wearableExtender)
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText(sharedText));
 
         int mNotificationId = 001;
         NotificationManager mNotifyMgr =
